@@ -10,6 +10,7 @@ export interface IBlog extends Document {
 export interface ClientBlog {
     title: string;
     author: string;
+    url: String,
     likes: number;
 }
 
@@ -18,6 +19,14 @@ const blogSchema: Schema = new Schema({
     author: String,
     url: String,
     likes: Number
+})
+
+blogSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString()
+        delete returnedObject._id
+        delete returnedObject.__v
+    }
 })
 
 export const Blog = mongoose.model<IBlog>('Blog', blogSchema)
