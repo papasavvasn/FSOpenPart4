@@ -103,7 +103,7 @@ test('if likes property is missing likes are set to 0 by default', async () => {
     expect(likes).toContain(0)
 })
 
-test('if title and url propertes are missing the API responds with a 400 code', async () => {
+test('if title and url propertes are missing the API responds with a 400 code and the post is not saved in the database', async () => {
     const newPost = {
         "author": "Author of an untitled blogpost",
         "likes": 22

@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { Blog } from "../models/blog"
-import { runInNewContext } from 'vm';
+import { User } from '../models/user';
 
 export const blogsRouter = Router()
 
@@ -10,12 +10,16 @@ blogsRouter.get('/', async (_: Request, res: Response) => {
 })
 
 blogsRouter.post('/', async (req: Request, res: Response) => {
-    if (!req.body.url && !req.body.title) {
+    const { title, url, likes } = req.body
+    if (!url && !title) {
         return res.status(400).end()
     } else {
-        const blog = new Blog({ ...req.body, likes: req.body.likes || 0 })
-        const result = await blog.save()
-        res.status(201).json(result)
+        const user = await User.findById(req.body.userId)
+        const blog = new Blog({ ...req.body, user: user?._id, likes: likes || 0 })
+        const savedBlog = await blog.save();
+        (user as any).blogs = (user as any)?.blogs?.concat(savedBlog._id)
+        await user?.save()
+        res.status(201).json(savedBlog)
     }
 })
 

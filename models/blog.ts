@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
-
+mongoose.set('useCreateIndex', true)
 export interface IBlog extends Document {
     title: string;
     author: string;
@@ -7,18 +7,15 @@ export interface IBlog extends Document {
     likes: number;
 }
 
-export interface ClientBlog {
-    title: string;
-    author: string;
-    url: String,
-    likes: number;
-}
-
 const blogSchema: Schema = new Schema({
     title: String,
     author: String,
     url: String,
-    likes: Number
+    likes: Number,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 })
 
 blogSchema.set('toJSON', {
