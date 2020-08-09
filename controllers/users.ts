@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt'
 import { User } from '../models/user'
+import { Blog } from '../models/blog'
 import { Request, Response, Router } from 'express';
 
 export const WRONG_PASSWORD = 'name and password must be at least 3 characters long'
@@ -26,7 +27,7 @@ usersRouter.post('/', async (req: Request, res: Response) => {
 })
 
 usersRouter.get('/', async (_: Request, res: Response) => {
-    const users = await User.find({})
+    const users = await User.find({}).populate('blogs', { title: 1, url: 1, likes: 1 })
     res.json(users)
 
 })

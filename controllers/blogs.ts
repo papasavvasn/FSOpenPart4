@@ -5,7 +5,7 @@ import { User } from '../models/user';
 export const blogsRouter = Router()
 
 blogsRouter.get('/', async (_: Request, res: Response) => {
-    const blogs = await Blog.find({})
+    const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
     res.json(blogs)
 })
 
@@ -14,7 +14,7 @@ blogsRouter.post('/', async (req: Request, res: Response) => {
     if (!url && !title) {
         return res.status(400).end()
     } else {
-        const user = await User.findById(req.body.userId)
+        const user = await User.findById(req.body.user)
         const blog = new Blog({ ...req.body, user: user?._id, likes: likes || 0 })
         const savedBlog = await blog.save();
         (user as any).blogs = (user as any)?.blogs?.concat(savedBlog._id)
