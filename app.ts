@@ -6,8 +6,10 @@ import mongoose from "mongoose"
 require('express-async-errors')
 import { blogsRouter } from "./controllers/blogs"
 import { usersRouter } from './controllers/users'
+import { loginRouter } from './controllers/login'
 import { MONGODB_URI } from "./utils/config"
 import { info } from "./utils/logger"
+
 
 export const app = express()
 
@@ -18,14 +20,22 @@ mongoose.connect(MONGODB_URI as string, { useNewUrlParser: true, useUnifiedTopol
 app.use(cors())
 app.use(express.json())
 
+app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/blogs', blogsRouter)
 
 const errorHandler = (error: Error, _: Request, response: Response, next: NextFunction) => {
-
-    if (error.name === 'ValidationError') {
+    if (error.name === 'CastError') {
+        return response.status(400).send({
+            error: 'malformatted id'
+        })
+    } else if (error.name === 'ValidationError') {
         // we expect an error when username is not provided or it is less than 3 characters or it is already in use
         response.status(400).json({ "error": (error as any).errors['username']?.message })
+    } else if (error.name === 'JsonWebTokenError') {
+        return response.status(401).json({
+            error: 'invalid token'
+        })
     }
 
 
