@@ -3,7 +3,7 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5pY2tzVXNlck5hbWUiLCJpZCI6IjVmMmZlMTZhNWZjNDYzOTRlNmI1NDY1NSIsImlhdCI6MTU5NzIxMzg0M30.EAa2hAyQ-ACvSA1knC0-LoBR5k8KurueniPBGw7aFkY
 
 {
-    "title": "Nick's authenticated second blog post",
+    "title": "Nick's authenticated third blog post",
     "author": "Nick",
     "url": "thisIsTheUrl",
     "likes": 20

@@ -8,14 +8,6 @@ interface DecodedToken {
     username: string;
 }
 
-const getTokenFrom = (request: Request) => {
-    const authorization = request.get('authorization')
-    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-        return authorization.substring(7)
-    }
-    return null
-}
-
 export const blogsRouter = Router()
 
 blogsRouter.get('/', async (_: Request, res: Response) => {
@@ -23,12 +15,12 @@ blogsRouter.get('/', async (_: Request, res: Response) => {
     res.json(blogs)
 })
 
-blogsRouter.post('/', async (req: Request, res: Response) => {
+blogsRouter.post('/', async (req: Request , res: Response) => {
     const { title, url, likes } = req.body
     if (!url && !title) {
         return res.status(400).end()
     } else {
-        const token = getTokenFrom(req)
+        const token = (req as any).token
         /*   The object decoded from the token contains the username and id fields, 
           which tells the server who made the request. */
         /* If the application has multiple interfaces requiring identification, 

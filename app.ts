@@ -2,6 +2,7 @@
 import cors from "cors"
 import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose"
+import {tokenExtractor} from "./middlewares/tokerExtractor"
 // https://fullstackopen.com/en/part4/testing_the_backend#eliminating-the-try-catch
 require('express-async-errors')
 import { blogsRouter } from "./controllers/blogs"
@@ -19,6 +20,7 @@ mongoose.connect(MONGODB_URI as string, { useNewUrlParser: true, useUnifiedTopol
 
 app.use(cors())
 app.use(express.json())
+app.use(tokenExtractor as any)
 
 app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
