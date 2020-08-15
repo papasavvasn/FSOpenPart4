@@ -15,7 +15,7 @@ blogsRouter.get('/', async (_: Request, res: Response) => {
     res.json(blogs)
 })
 
-blogsRouter.post('/', async (req: Request , res: Response) => {
+blogsRouter.post('/', async (req: Request, res: Response) => {
     const { title, url, likes } = req.body
     if (!url && !title) {
         return res.status(400).end()
@@ -41,14 +41,26 @@ blogsRouter.post('/', async (req: Request , res: Response) => {
     }
 })
 
+blogsRouter.delete("/:id", async (req: Request, res: Response) => {
+    const token = (req as any).token
+    const decodedToken = jwt.verify(token as string, process.env.SECRET as string)
+    const userId = (decodedToken as any).id
+    const postToDelete = await Blog.findById(req.params.id)
+
+    if (!postToDelete) return res.status(404).end()
+
+    const authorId = (postToDelete as any)?.user?.toString()
+
+    if (userId === authorId) {
+        const deletedPost = await Blog.findByIdAndRemove(req.params.id)
+        return res.status(204).end()
+    } else {
+        return res.status(401).end()
+    }
+})
 
 blogsRouter.put('/:id', async (req: Request, res: Response) => {
     const { title, author, url, likes } = req.body
     const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, { title, author, url, likes }, { new: true })
     res.json(updatedBlog)
-})
-
-blogsRouter.delete("/:id", async (req: Request, res: Response) => {
-    const deletedPost = await Blog.findByIdAndRemove(req.params.id)
-    res.status(204).end()
 })

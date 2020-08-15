@@ -2,7 +2,7 @@
 import cors from "cors"
 import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose"
-import {tokenExtractor} from "./middlewares/tokerExtractor"
+import { tokenExtractor } from "./middlewares/tokerExtractor"
 // https://fullstackopen.com/en/part4/testing_the_backend#eliminating-the-try-catch
 require('express-async-errors')
 import { blogsRouter } from "./controllers/blogs"
