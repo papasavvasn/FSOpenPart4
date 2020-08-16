@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt'
 import { User } from '../models/user'
-import { Blog } from '../models/blog'
 import { Request, Response, Router } from 'express';
 
 export const WRONG_PASSWORD = 'name and password must be at least 3 characters long'

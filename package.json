@@ -9,6 +9,7 @@
     "build": "tsc",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "test:watch": "npm run test -- --watch",
+    "start:test": "cross-env NODE_ENV=test nodemon ./index.ts",
     "how_to_run_only_one_testFile": "npm test -- tests/blog_api.test.ts"
   },
   "jest": {

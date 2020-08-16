@@ -8,6 +8,7 @@ require('express-async-errors')
 import { blogsRouter } from "./controllers/blogs"
 import { usersRouter } from './controllers/users'
 import { loginRouter } from './controllers/login'
+import { testsRouter } from './controllers/tests'
 import { MONGODB_URI } from "./utils/config"
 import { info } from "./utils/logger"
 
@@ -25,6 +26,11 @@ app.use(tokenExtractor as any)
 app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/blogs', blogsRouter)
+
+if (process.env.NODE_ENV === 'test') {
+    app.use('/api/testing', testsRouter)
+}
+
 
 const errorHandler = (error: Error, _: Request, response: Response, next: NextFunction) => {
     if (error.name === 'CastError') {
