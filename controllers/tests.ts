@@ -12,3 +12,7 @@ testsRouter.post('/reset', async (req: Request, res: Response) => {
     return res.status(204).end()
 })
 
+testsRouter.post('/reset-blogs', async (req: Request, res: Response) => {
+    await Blog.deleteMany({})
+    return res.status(204).end()
+})

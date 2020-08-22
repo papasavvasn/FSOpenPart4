@@ -4,3 +4,4 @@
 4. Check the exercises about more details https://fullstackopen.com/en/part4/token_authentication#exercises-4-15-4-22
 
 This serves as the backend for bloglist-frontend
+Execute `npm run start:test` to run it with Cypress
